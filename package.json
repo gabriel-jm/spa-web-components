@@ -1,0 +1,13 @@
+{
+  "name": "spa-web-components",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "nodemon --ext html,css,js index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "simple-files-server": "^1.1.2"
+  }
+}
