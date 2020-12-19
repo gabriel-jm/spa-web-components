@@ -1,10 +1,12 @@
 import { css, html, raw } from '../lib/templates.js'
 
 export default class AppMain extends HTMLElement {
+  currentSection = 0
+  
   constructor() {
     super()
 
-    this.currentSection = 0
+    onpopstate = () => this.handleUrl()
 
     this.attachShadow({ mode: 'open' })
     this.handleUrl()
@@ -34,12 +36,15 @@ export default class AppMain extends HTMLElement {
 
   handleUrl() {
     const urls = {
-      '#/search': () => this.currentSection = 0,
-      '#/trending': () => this.currentSection = 1,
-      '#/random': () => this.currentSection = 2
+      '/search': () => this.currentSection = 0,
+      '/trending': () => this.currentSection = 1,
+      '/random': () => this.currentSection = 2
     }
 
-    urls[window.location.hash || '#/search']()
+    location.pathname in urls
+      ? urls[location.pathname]()
+      : urls['/search']()
+    ;
 
     this.render()
   }

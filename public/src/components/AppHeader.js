@@ -12,7 +12,12 @@ export default class AppHeader extends HTMLElement {
     this.shadowRoot
       .querySelectorAll('.app-header-li a')
       .forEach((anchor, index) => {
-        anchor.addEventListener('click', () => {
+        anchor.addEventListener('click', e => {
+          e.preventDefault()
+          
+          history.pushState(null, '', e.target.href)
+          window.dispatchEvent(new Event('popstate'))
+
           this.handleClick(index)
         })
       })
@@ -62,13 +67,13 @@ export default class AppHeader extends HTMLElement {
 
       <ul class="app-header-ul">
         <li class="app-header-li">
-          <a href="#/search">Search</a>
+          <a href="/search">Search</a>
         </li>
         <li class="app-header-li">
-          <a href="#/trending">Trending</a>
+          <a href="/trending">Trending</a>
         </li>
         <li class="app-header-li">
-          <a href="#/random">Random</a>
+          <a href="/random">Random</a>
         </li>
       </ul>
     `
