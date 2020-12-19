@@ -1,11 +1,23 @@
-import { css, html } from '../lib/templates.js'
+import { css, html, raw } from '../lib/templates.js'
 
 export default class AppMain extends HTMLElement {
   constructor() {
     super()
 
+    this.currentSection = 0
+
     this.attachShadow({ mode: 'open' })
     this.render()
+  }
+
+  getSection(number) {
+    const sections = [
+      raw`<search-container />`,
+      raw`<show-trending />`,
+      raw`<show-random />`
+    ]
+
+    return number in sections ? sections[number] : ''
   }
 
   render() {
@@ -25,7 +37,7 @@ export default class AppMain extends HTMLElement {
     return html`
       <style>${this.getStyles()}</style>
 
-      <show-trending />
+      ${this.getSection(this.currentSection)}
     `
   }
 }

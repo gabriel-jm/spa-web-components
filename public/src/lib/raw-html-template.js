@@ -1,18 +1,15 @@
-import { RawHTML } from './raw-html-template.js'
-
 const regExp = /<([a-zA-Z0-9\-]+)\s(.*)\/>/g
 
-export function html(strings, ...values) {
-  values = values.map((value) => {
-    if(value instanceof RawHTML) {
-      return value.isSafe ? value.html : ''
-    }
+export class RawHTML {
+  constructor(html) {
+    this.isSafe = true
+    this.html = html
+  }
+}
 
-    return value.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  })
-
+export function raw(strings, values) {
   const fullHtml = strings.reduce((acc, str, index) => {
-    return acc + str + (values[index] || "");
+    return acc + str + (values ? values[index] : "");
   }, "")
 
   const parsedHtml = fullHtml
@@ -31,5 +28,5 @@ export function html(strings, ...values) {
       '<$1$2></$1>'
     )
 
-  return parsedHtml
+  return new RawHTML(parsedHtml)
 }
