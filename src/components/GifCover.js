@@ -34,4 +34,5 @@ export default class GifCover extends HTMLElement {
   }
 }
 
-customElements.define('gif-cover', GifCover)
+!customElements.get('gif-cover') &&
+  customElements.define('gif-cover', GifCover)
