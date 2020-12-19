@@ -2,7 +2,6 @@ const path = require('path')
 
 module.exports = {
   mode: 'development',
-  devtool: 'source-map',
   entry: './src/index.js',
   resolve: {
     extensions: ['.js']
@@ -12,11 +11,14 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   },
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname)
+  devServer: {
+    publicPath: '/public/',
+    contentBase: path.resolve(__dirname, 'public'),
+    port: 3000
   },
-  performance: {
-    hints: false
+  output: {
+    publicPath: '/public',
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'public')
   }
 }

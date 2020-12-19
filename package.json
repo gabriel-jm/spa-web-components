@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "node webpack.dev.server"
+    "build": "webpack",
+    "start": "webpack serve"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
