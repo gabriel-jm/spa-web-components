@@ -1,0 +1,79 @@
+import { css, html } from '../lib/templates.js'
+
+export default class AppHeader extends HTMLElement {
+  constructor() {
+    super()
+
+    this.attachShadow({ mode: 'open' })
+    this.render()
+  }
+
+  connectedCallback() {
+    this.shadowRoot
+      .querySelectorAll('.app-header-li a')
+      .forEach((anchor, index) => {
+        anchor.addEventListener('click', () => {
+          this.handleClick(index)
+        })
+      })
+  }
+
+  handleClick(index) {
+    this.dispatchEvent(new CustomEvent('app-header-click', {
+      detail: { data: index },
+      bubbles: false
+    }))
+  }
+
+  getStyles() {
+    return css`
+      :host {
+        display: block;
+        top: 0;
+        background: #46cff3;
+        position: sticky;
+        height: 75px;
+      }
+
+      .app-header-ul {
+        display: flex;
+        margin: 0;
+        justify-content: flex-end;
+        height: 100%;
+      }
+
+      .app-header-li {
+        align-self: center;
+        list-style-type: none;
+        margin-right: 25px;
+      }
+
+      .app-header-li a {
+        text-decoration: none;
+        color: white;
+        font-size: 25px;
+      }
+    `
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = html`
+      <style>${this.getStyles()}</style>
+
+      <ul class="app-header-ul">
+        <li class="app-header-li">
+          <a href="#/search">Search</a>
+        </li>
+        <li class="app-header-li">
+          <a href="#/trending">Trending</a>
+        </li>
+        <li class="app-header-li">
+          <a href="#/random">Random</a>
+        </li>
+      </ul>
+    `
+  }
+}
+
+!customElements.get('app-header') &&
+  customElements.define('app-header', AppHeader)

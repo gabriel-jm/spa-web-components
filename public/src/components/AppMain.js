@@ -7,7 +7,19 @@ export default class AppMain extends HTMLElement {
     this.currentSection = 0
 
     this.attachShadow({ mode: 'open' })
-    this.render()
+    this.handleUrl()
+  }
+
+  connectedCallback() {
+    this.shadowRoot
+      .querySelector('app-header')
+      .addEventListener('app-header-click', e => {
+        const newSection = e.detail.data
+        if(newSection !== this.currentSection) {
+          this.currentSection = newSection
+          this.reRenderApp()
+        }
+      })
   }
 
   getSection(number) {
@@ -20,8 +32,26 @@ export default class AppMain extends HTMLElement {
     return number in sections ? sections[number] : ''
   }
 
+  handleUrl() {
+    const urls = {
+      '#/search': () => this.currentSection = 0,
+      '#/trending': () => this.currentSection = 1,
+      '#/random': () => this.currentSection = 2
+    }
+
+    urls[window.location.hash || '#/search']()
+
+    this.render()
+  }
+
   render() {
     this.shadowRoot.innerHTML = this.getTemplate()
+  }
+
+  reRenderApp() {
+    this.shadowRoot
+      .querySelector('div')
+      .innerHTML = this.getSection(this.currentSection).html
   }
 
   getStyles() {
@@ -37,7 +67,10 @@ export default class AppMain extends HTMLElement {
     return html`
       <style>${this.getStyles()}</style>
 
-      ${this.getSection(this.currentSection)}
+      <app-header />
+      <div>
+        ${this.getSection(this.currentSection)}
+      </div>
     `
   }
 }
