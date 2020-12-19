@@ -1,4 +1,4 @@
-import { html, css } from '../lib/templates'
+import { html, css } from '../lib/templates.js'
 
 export default class GifCover extends HTMLElement {
   constructor() {

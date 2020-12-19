@@ -1,4 +1,4 @@
-import { css, html } from '../lib/templates'
+import { css, html } from '../lib/templates.js'
 
 export default class SearchBar extends HTMLElement {
   constructor() {

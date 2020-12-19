@@ -1,6 +1,6 @@
-import './SearchBar'
-import './GifCover'
-import { css, html } from '../lib/templates'
+import './SearchBar.js'
+import './GifCover.js'
+import { css, html } from '../lib/templates.js'
 
 export default class SearchContainer extends HTMLElement {
   constructor() {
