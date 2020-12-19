@@ -1,22 +1,24 @@
-import './SearchBar.js'
 import { css, html } from '../lib/templates.js'
 
-export default class SearchContainer extends HTMLElement {
+export default class ShowTrending extends HTMLElement {
   constructor() {
     super()
+
+    this.key = 'Nm8PyXV7XHUWsLNXOs0VtL86NwIS1LDa'
+    this.apiUrl = 'https://api.giphy.com/v1/gifs/trending'
+    this.showLimit = 20
 
     this.attachShadow({ mode: 'open' })
     this.render()
   }
 
   connectedCallback() {
-    this.shadowRoot.querySelector('search-bar')
-      .addEventListener('search-complete', e => {
-        this.handleSearchData(e.detail.data)
-      })
+    fetch(`${this.apiUrl}?api_key=${this.key}&limit=${this.showlimit}`)
+      .then(response => response.json())
+      .then(jsonResponse => this.handleTrendingData(jsonResponse.data))
   }
 
-  handleSearchData(data) {
+  handleTrendingData(data) {
     const parsedData = data.map(value => {
       return html`
         <gif-cover url=${value.images.downsized_medium.url} />
@@ -24,7 +26,7 @@ export default class SearchContainer extends HTMLElement {
     }).join('')
 
     this.shadowRoot
-      .querySelector('.search-container-images')
+      .querySelector('.show-trending-images')
       .innerHTML = parsedData
   }
 
@@ -34,12 +36,11 @@ export default class SearchContainer extends HTMLElement {
         display: block;
       }
 
-      .search-container {
-        display: block;
-        padding: 10px;
+      .show-trending-heading {
+        text-align: center;
       }
 
-      .search-container-images {
+      .show-trending-images {
         display: flex;
         padding: 10px;
         flex-wrap: wrap;
@@ -58,16 +59,13 @@ export default class SearchContainer extends HTMLElement {
     this.shadowRoot.innerHTML = html`
       <style>${this.getStyles()}</style>
 
-      <div class="search-container">
-        <search-bar />
-
-        <div class="search-container-images">
-          <p>Try Searching for a tag in the search bar</p>
-        </div>
+      <div class="show-trending-container">
+        <h2 class="show-trending-heading">Trending Gifs</h2>
+        <div class="show-trending-images"></div>
       </div>
     `
   }
 }
 
-!customElements.get('search-container') &&
-  customElements.define('search-container', SearchContainer)
+!customElements.get('show-trending') &&
+  customElements.define('show-trending', ShowTrending)

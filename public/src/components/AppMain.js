@@ -25,7 +25,7 @@ export default class AppMain extends HTMLElement {
     return html`
       <style>${this.getStyles()}</style>
 
-      <search-container />
+      <show-trending />
     `
   }
 }
