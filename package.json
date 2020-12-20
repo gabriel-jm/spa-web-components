@@ -8,7 +8,9 @@
     "start": "node server"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
     "simple-files-server": "^1.1.2"
   }
 }
