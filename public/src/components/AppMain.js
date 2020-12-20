@@ -1,4 +1,5 @@
-import { css, html, raw } from '../lib/templates.js'
+import { css, html } from '../lib/templates.js'
+import routes from '../routes.js'
 
 export default class AppMain extends HTMLElement {
   currentSection = 0
@@ -6,10 +7,10 @@ export default class AppMain extends HTMLElement {
   constructor() {
     super()
 
-    onpopstate = () => this.handleUrl()
+    onpopstate = () => this.reRenderApp()
 
     this.attachShadow({ mode: 'open' })
-    this.handleUrl()
+    this.render()
   }
 
   connectedCallback() {
@@ -19,34 +20,14 @@ export default class AppMain extends HTMLElement {
         const newSection = e.detail.data
         if(newSection !== this.currentSection) {
           this.currentSection = newSection
-          this.reRenderApp()
         }
       })
   }
 
-  getSection(number) {
-    const sections = [
-      raw`<search-container />`,
-      raw`<show-trending />`,
-      raw`<show-random />`
-    ]
-
-    return number in sections ? sections[number] : ''
-  }
-
   handleUrl() {
-    const urls = {
-      '/search': () => this.currentSection = 0,
-      '/trending': () => this.currentSection = 1,
-      '/random': () => this.currentSection = 2
-    }
+    const { pathname } = window.location
 
-    location.pathname in urls
-      ? urls[location.pathname]()
-      : urls['/search']()
-    ;
-
-    this.render()
+    return pathname in routes ? routes[pathname] : 'search-container'
   }
 
   render() {
@@ -56,7 +37,7 @@ export default class AppMain extends HTMLElement {
   reRenderApp() {
     this.shadowRoot
       .querySelector('div')
-      .innerHTML = this.getSection(this.currentSection).html
+      .innerHTML = html`<${this.handleUrl()} />`
   }
 
   getStyles() {
@@ -74,7 +55,7 @@ export default class AppMain extends HTMLElement {
 
       <app-header />
       <div>
-        ${this.getSection(this.currentSection)}
+        <${this.handleUrl()} />
       </div>
     `
   }

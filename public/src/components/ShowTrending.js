@@ -1,19 +1,19 @@
 import { css, html } from '../lib/templates.js'
 
 export default class ShowTrending extends HTMLElement {
+  #key = 'Nm8PyXV7XHUWsLNXOs0VtL86NwIS1LDa'
+  apiUrl = 'https://api.giphy.com/v1/gifs/trending'
+  showLimit = 20
+  
   constructor() {
     super()
-
-    this.key = 'Nm8PyXV7XHUWsLNXOs0VtL86NwIS1LDa'
-    this.apiUrl = 'https://api.giphy.com/v1/gifs/trending'
-    this.showLimit = 20
 
     this.attachShadow({ mode: 'open' })
     this.render()
   }
 
   connectedCallback() {
-    fetch(`${this.apiUrl}?api_key=${this.key}&limit=${this.showlimit}`)
+    fetch(`${this.apiUrl}?api_key=${this.#key}&limit=${this.showlimit}`)
       .then(response => response.json())
       .then(jsonResponse => this.handleTrendingData(jsonResponse.data))
   }
@@ -38,6 +38,8 @@ export default class ShowTrending extends HTMLElement {
 
       .show-trending-heading {
         text-align: center;
+        color: #333;
+        font-style: italic;
       }
 
       .show-trending-images {
