@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "nodemon --ext html,css,js server"
+    "start": "nodemon --ext html,css,js server",
+    "prod": "node server"
   },
   "devDependencies": {
     "nodemon": "^2.0.6",
