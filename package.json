@@ -11,6 +11,6 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
-    "simple-files-server": "^1.2.0"
+    "simple-files-server": "^1.2.2"
   }
 }
