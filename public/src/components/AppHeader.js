@@ -14,7 +14,7 @@ export default class AppHeader extends HTMLElement {
       .forEach((anchor, index) => {
         anchor.addEventListener('click', e => {
           e.preventDefault()
-          
+
           history.pushState(null, '', e.target.href)
           window.dispatchEvent(new Event('popstate'))
 
@@ -33,11 +33,18 @@ export default class AppHeader extends HTMLElement {
   getStyles() {
     return css`
       :host {
-        display: block;
+        display: flex;
         top: 0;
         background: #46cff3;
         position: sticky;
         height: 75px;
+        justify-content: space-between;
+        padding: 0 18px;
+        color: white;
+      }
+
+      h1 {
+        font-family: Consolas, sans-serif;
       }
 
       .app-header-ul {
@@ -55,8 +62,8 @@ export default class AppHeader extends HTMLElement {
 
       .app-header-li a {
         text-decoration: none;
-        color: white;
         font-size: 25px;
+        color: inherit;
       }
     `
   }
@@ -64,6 +71,8 @@ export default class AppHeader extends HTMLElement {
   render() {
     this.shadowRoot.innerHTML = html`
       <style>${this.getStyles()}</style>
+
+      <h1>GIF Gallery</h1>
 
       <ul class="app-header-ul">
         <li class="app-header-li">
